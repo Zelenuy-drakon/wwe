@@ -46,17 +46,6 @@
             this.dgvCart.TabIndex = 0;
             this.dgvCart.SelectionChanged += new System.EventHandler(this.dgvCart_SelectionChanged);
             // 
-            // CartId
-            // 
-            this.dgvCart.Columns.Add("CartId", "ID");
-            this.dgvCart.Columns["CartId"].Visible = false;
-            this.dgvCart.Columns.Add("ProductId", "ProductID");
-            this.dgvCart.Columns["ProductId"].Visible = false;
-            this.dgvCart.Columns.Add("Name", "Товар");
-            this.dgvCart.Columns.Add("Price", "Цена");
-            this.dgvCart.Columns.Add("Quantity", "Кол-во");
-            this.dgvCart.Columns.Add("Total", "Сумма");
-            // 
             // lblQuantity
             // 
             this.lblQuantity.AutoSize = true;
@@ -103,7 +92,7 @@
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(57, 20);
             this.lblTotal.TabIndex = 5;
-            this.lblTotal.Text = "Итого:";
+            this.lblTotal.Text = "Итого: 0 ₽";
             // 
             // btnCheckout
             // 

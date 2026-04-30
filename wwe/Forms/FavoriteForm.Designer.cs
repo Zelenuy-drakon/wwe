@@ -36,15 +36,6 @@
             this.dgvFavorites.Size = new System.Drawing.Size(560, 350);
             this.dgvFavorites.TabIndex = 0;
             // 
-            // FavoriteId
-            // 
-            this.dgvFavorites.Columns.Add("FavoriteId", "ID");
-            this.dgvFavorites.Columns["FavoriteId"].Visible = false;
-            this.dgvFavorites.Columns.Add("ProductId", "ProductID");
-            this.dgvFavorites.Columns["ProductId"].Visible = false;
-            this.dgvFavorites.Columns.Add("Name", "Товар");
-            this.dgvFavorites.Columns.Add("Price", "Цена");
-            // 
             // btnRemove
             // 
             this.btnRemove.Location = new System.Drawing.Point(580, 12);

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
-using wwe.Forms;
 
 namespace OnlineStoreApp
 {
     public partial class LoginForm : Form
     {
-        private DatabaseHelper db = new DatabaseHelper();
+        private readonly DatabaseHelper db = new DatabaseHelper();
 
         public LoginForm()
         {
@@ -49,7 +48,7 @@ namespace OnlineStoreApp
 
         private void btnForgot_Click(object sender, EventArgs e)
         {
-            PasswordResetForm resetForm = new PasswordResetForm();
+            var resetForm = new PasswordResetForm();
             resetForm.ShowDialog();
         }
     }

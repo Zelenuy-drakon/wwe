@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
-using wwe.Forms;
 
 namespace OnlineStoreApp
 {
     public partial class MainForm : Form
     {
-        private int userId;
-        private DatabaseHelper db = new DatabaseHelper();
+        private readonly int userId;
+        private readonly DatabaseHelper db = new DatabaseHelper();
 
         public MainForm(int userId)
         {
@@ -129,13 +128,13 @@ namespace OnlineStoreApp
 
         private void btnCart_Click(object sender, EventArgs e)
         {
-            CartForm cartForm = new CartForm(userId);
+            var cartForm = new CartForm(userId);
             cartForm.ShowDialog();
         }
 
         private void btnFavorites_Click(object sender, EventArgs e)
         {
-            FavoritesForm favForm = new FavoritesForm(userId);
+            var favForm = new FavoritesForm(userId);
             favForm.ShowDialog();
         }
     }

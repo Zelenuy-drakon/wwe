@@ -1,21 +1,50 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
-using wwe.Forms;
 
 namespace OnlineStoreApp
 {
     public partial class CartForm : Form
     {
-        private int userId;
-        private DatabaseHelper db = new DatabaseHelper();
+        private readonly int userId;
+        private readonly DatabaseHelper db = new DatabaseHelper();
 
         public CartForm(int userId)
         {
             InitializeComponent();
             this.userId = userId;
+            SetupDataGridViewColumns();
             LoadCart();
+        }
+
+        private void SetupDataGridViewColumns()
+        {
+            dgvCart.Columns.Clear();
+
+            dgvCart.Columns.Add("CartId", "ID");
+            if (dgvCart.Columns["CartId"] != null)
+                dgvCart.Columns["CartId"].Visible = false;
+
+            dgvCart.Columns.Add("ProductId", "ProductID");
+            if (dgvCart.Columns["ProductId"] != null)
+                dgvCart.Columns["ProductId"].Visible = false;
+
+            dgvCart.Columns.Add("Name", "Товар");
+            if (dgvCart.Columns["Name"] != null)
+                dgvCart.Columns["Name"].Width = 200;
+
+            dgvCart.Columns.Add("Price", "Цена");
+            if (dgvCart.Columns["Price"] != null)
+                dgvCart.Columns["Price"].DefaultCellStyle.Format = "C";
+
+            dgvCart.Columns.Add("Quantity", "Кол-во");
+            if (dgvCart.Columns["Quantity"] != null)
+                dgvCart.Columns["Quantity"].Width = 80;
+
+            dgvCart.Columns.Add("Total", "Сумма");
+            if (dgvCart.Columns["Total"] != null)
+                dgvCart.Columns["Total"].DefaultCellStyle.Format = "C";
         }
 
         private void LoadCart()
@@ -28,18 +57,18 @@ namespace OnlineStoreApp
                 JOIN Products p ON c.ProductId = p.ProductId
                 WHERE c.UserId = @uid";
 
-            SqlParameter[] p = { new SqlParameter("@uid", userId) };
-            DataTable dt = db.ExecuteQuery(query, p);
+            var parameter = new SqlParameter("@uid", userId);
+            DataTable dt = db.ExecuteQuery(query, parameter);
 
             foreach (DataRow row in dt.Rows)
             {
                 dgvCart.Rows.Add(
                     row["CartId"],
                     row["ProductId"],
-                    row["Name"],
-                    row["Price"],
-                    row["Quantity"],
-                    row["Total"]
+                    row["Name"]?.ToString() ?? "Нет названия",
+                    row["Price"] != DBNull.Value ? row["Price"] : 0,
+                    row["Quantity"] != DBNull.Value ? row["Quantity"] : 0,
+                    row["Total"] != DBNull.Value ? row["Total"] : 0
                 );
             }
 
@@ -49,9 +78,12 @@ namespace OnlineStoreApp
         private void UpdateTotal()
         {
             decimal total = 0;
-            for (int i = 0; i < dgvCart.Rows.Count; i++)
+            foreach (DataGridViewRow row in dgvCart.Rows)
             {
-                total += Convert.ToDecimal(dgvCart.Rows[i].Cells["Total"].Value);
+                if (row.Cells["Total"].Value != null && row.Cells["Total"].Value != DBNull.Value)
+                {
+                    total += Convert.ToDecimal(row.Cells["Total"].Value);
+                }
             }
             lblTotal.Text = $"Итого: {total:C}";
         }
@@ -60,15 +92,21 @@ namespace OnlineStoreApp
         {
             if (dgvCart.CurrentRow == null) return;
 
-            int cartId = Convert.ToInt32(dgvCart.CurrentRow.Cells["CartId"].Value);
-            string productName = dgvCart.CurrentRow.Cells["Name"].Value.ToString();
+            var cartIdCell = dgvCart.CurrentRow.Cells["CartId"];
+            var nameCell = dgvCart.CurrentRow.Cells["Name"];
+
+            if (cartIdCell?.Value == null || nameCell?.Value == null) return;
+
+            int cartId = Convert.ToInt32(cartIdCell.Value);
+            string productName = nameCell.Value.ToString() ?? "товар";
 
             DialogResult result = MessageBox.Show($"Удалить \"{productName}\" из корзины?", "Подтверждение",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
-                db.ExecuteNonQuery("DELETE FROM Cart WHERE CartId = @id", new SqlParameter("@id", cartId));
+                var parameter = new SqlParameter("@id", cartId);
+                db.ExecuteNonQuery("DELETE FROM Cart WHERE CartId = @id", parameter);
                 LoadCart();
             }
         }
@@ -77,7 +115,10 @@ namespace OnlineStoreApp
         {
             if (dgvCart.CurrentRow == null) return;
 
-            int cartId = Convert.ToInt32(dgvCart.CurrentRow.Cells["CartId"].Value);
+            var cartIdCell = dgvCart.CurrentRow.Cells["CartId"];
+            if (cartIdCell?.Value == null) return;
+
+            int cartId = Convert.ToInt32(cartIdCell.Value);
             int newQuantity = (int)nudQuantity.Value;
 
             if (newQuantity <= 0)
@@ -97,7 +138,7 @@ namespace OnlineStoreApp
 
         private void dgvCart_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvCart.CurrentRow != null)
+            if (dgvCart.CurrentRow != null && dgvCart.CurrentRow.Cells["Quantity"].Value != null)
             {
                 nudQuantity.Value = Convert.ToInt32(dgvCart.CurrentRow.Cells["Quantity"].Value);
             }
@@ -111,7 +152,7 @@ namespace OnlineStoreApp
                 return;
             }
 
-            CheckoutForm checkout = new CheckoutForm(userId);
+            var checkout = new CheckoutForm(userId);
             checkout.ShowDialog();
             LoadCart();
         }

@@ -1,20 +1,38 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace OnlineStoreApp
 {
     public partial class FavoritesForm : Form
     {
-        private int userId;
-        private DatabaseHelper db = new DatabaseHelper();
+        private readonly int userId;
+        private readonly DatabaseHelper db = new DatabaseHelper();
 
         public FavoritesForm(int userId)
         {
             InitializeComponent();
             this.userId = userId;
+            SetupDataGridViewColumns();
             LoadFavorites();
+        }
+
+        private void SetupDataGridViewColumns()
+        {
+            dgvFavorites.Columns.Clear();
+
+            dgvFavorites.Columns.Add("FavoriteId", "ID");
+            dgvFavorites.Columns["FavoriteId"].Visible = false;
+
+            dgvFavorites.Columns.Add("ProductId", "ProductID");
+            dgvFavorites.Columns["ProductId"].Visible = false;
+
+            dgvFavorites.Columns.Add("Name", "Товар");
+            dgvFavorites.Columns["Name"].Width = 250;
+
+            dgvFavorites.Columns.Add("Price", "Цена");
+            dgvFavorites.Columns["Price"].DefaultCellStyle.Format = "C";
         }
 
         private void LoadFavorites()
@@ -70,6 +88,7 @@ namespace OnlineStoreApp
                 new SqlParameter("@uid", userId),
                 new SqlParameter("@pid", productId)
             };
+
             DataTable dt = db.ExecuteQuery(checkQuery, checkParams);
             int count = Convert.ToInt32(dt.Rows[0][0]);
 

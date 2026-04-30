@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace OnlineStoreApp
 {
     public partial class PasswordResetForm : Form
     {
-        private DatabaseHelper db = new DatabaseHelper();
-        private string currentUsername;
+        private readonly DatabaseHelper db = new DatabaseHelper();
+        private string? currentUsername; // Исправлено: nullable
 
         public PasswordResetForm()
         {
@@ -28,15 +28,15 @@ namespace OnlineStoreApp
             }
 
             string query = "SELECT SecurityQuestion, SecurityAnswer FROM Users WHERE Username = @user";
-            SqlParameter[] p = { new SqlParameter("@user", currentUsername) };
-            DataTable dt = db.ExecuteQuery(query, p);
+            var parameter = new SqlParameter("@user", currentUsername);
+            DataTable dt = db.ExecuteQuery(query, parameter);
 
             if (dt.Rows.Count > 0)
             {
-                lblQuestion.Text = dt.Rows[0]["SecurityQuestion"].ToString();
-                string correctAnswer = dt.Rows[0]["SecurityAnswer"].ToString();
+                var firstRow = dt.Rows[0];
+                lblQuestion.Text = firstRow["SecurityQuestion"]?.ToString() ?? "Нет вопроса";
+                string correctAnswer = firstRow["SecurityAnswer"]?.ToString() ?? string.Empty;
 
-                // Сохраняем ответ для проверки
                 this.Tag = correctAnswer;
 
                 gbAnswer.Visible = true;
@@ -52,7 +52,7 @@ namespace OnlineStoreApp
         private void btnVerifyAnswer_Click(object sender, EventArgs e)
         {
             string userAnswer = txtAnswer.Text.Trim();
-            string correctAnswer = this.Tag?.ToString();
+            string? correctAnswer = this.Tag?.ToString();
 
             if (string.IsNullOrEmpty(userAnswer))
             {
@@ -60,7 +60,7 @@ namespace OnlineStoreApp
                 return;
             }
 
-            if (userAnswer.Equals(correctAnswer, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(correctAnswer) && userAnswer.Equals(correctAnswer, StringComparison.OrdinalIgnoreCase))
             {
                 gbNewPassword.Visible = true;
                 btnVerifyAnswer.Enabled = false;
@@ -86,6 +86,12 @@ namespace OnlineStoreApp
             if (newPassword != confirmPassword)
             {
                 MessageBox.Show("Пароли не совпадают", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(currentUsername))
+            {
+                MessageBox.Show("Ошибка: пользователь не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
