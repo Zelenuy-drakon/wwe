@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace OnlineStoreApp
@@ -45,7 +45,7 @@ namespace OnlineStoreApp
                 JOIN Products p ON f.ProductId = p.ProductId
                 WHERE f.UserId = @uid";
 
-            SqlParameter[] p = { new SqlParameter("@uid", userId) };
+            MySqlParameter[] p = { new MySqlParameter("@uid", userId) };
             DataTable dt = db.ExecuteQuery(query, p);
 
             foreach (DataRow row in dt.Rows)
@@ -71,7 +71,7 @@ namespace OnlineStoreApp
 
             if (result == DialogResult.Yes)
             {
-                db.ExecuteNonQuery("DELETE FROM Favorites WHERE FavoriteId = @id", new SqlParameter("@id", favoriteId));
+                db.ExecuteNonQuery("DELETE FROM Favorites WHERE FavoriteId = @id", new MySqlParameter("@id", favoriteId));
                 LoadFavorites();
             }
         }
@@ -84,9 +84,9 @@ namespace OnlineStoreApp
             string productName = dgvFavorites.CurrentRow.Cells["Name"].Value.ToString();
 
             string checkQuery = "SELECT COUNT(*) FROM Cart WHERE UserId = @uid AND ProductId = @pid";
-            SqlParameter[] checkParams = {
-                new SqlParameter("@uid", userId),
-                new SqlParameter("@pid", productId)
+            MySqlParameter[] checkParams = {
+                new MySqlParameter("@uid", userId),
+                new MySqlParameter("@pid", productId)
             };
 
             DataTable dt = db.ExecuteQuery(checkQuery, checkParams);

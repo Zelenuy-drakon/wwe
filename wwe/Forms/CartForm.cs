@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace OnlineStoreApp
@@ -57,7 +57,7 @@ namespace OnlineStoreApp
                 JOIN Products p ON c.ProductId = p.ProductId
                 WHERE c.UserId = @uid";
 
-            var parameter = new SqlParameter("@uid", userId);
+            var parameter = new MySqlParameter("@uid", userId);
             DataTable dt = db.ExecuteQuery(query, parameter);
 
             foreach (DataRow row in dt.Rows)
@@ -105,7 +105,7 @@ namespace OnlineStoreApp
 
             if (result == DialogResult.Yes)
             {
-                var parameter = new SqlParameter("@id", cartId);
+                var parameter = new MySqlParameter("@id", cartId);
                 db.ExecuteNonQuery("DELETE FROM Cart WHERE CartId = @id", parameter);
                 LoadCart();
             }
@@ -128,9 +128,9 @@ namespace OnlineStoreApp
             }
 
             string updateQuery = "UPDATE Cart SET Quantity = @qty WHERE CartId = @id";
-            SqlParameter[] p = {
-                new SqlParameter("@qty", newQuantity),
-                new SqlParameter("@id", cartId)
+            MySqlParameter[] p = {
+                new MySqlParameter("@qty", newQuantity),
+                new MySqlParameter("@id", cartId)
             };
             db.ExecuteNonQuery(updateQuery, p);
             LoadCart();

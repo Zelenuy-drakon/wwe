@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace OnlineStoreApp
@@ -37,13 +37,13 @@ namespace OnlineStoreApp
                 WHERE (p.Name LIKE '%' + @search + '%' OR @search = '')
             ";
 
-            var parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@search", search));
+            var parameters = new List<MySqlParameter>();
+            parameters.Add(new MySqlParameter("@search", search));
 
             if (categoryId.HasValue)
             {
                 query += " AND p.CategoryId = @categoryId";
-                parameters.Add(new SqlParameter("@categoryId", categoryId.Value));
+                parameters.Add(new MySqlParameter("@categoryId", categoryId.Value));
             }
 
             DataTable dt = db.ExecuteQuery(query, parameters.ToArray());
@@ -79,9 +79,9 @@ namespace OnlineStoreApp
             string productName = dgvProducts.CurrentRow.Cells["Name"].Value.ToString();
 
             string checkQuery = "SELECT COUNT(*) FROM Cart WHERE UserId = @uid AND ProductId = @pid";
-            SqlParameter[] checkParams = {
-                new SqlParameter("@uid", userId),
-                new SqlParameter("@pid", productId)
+            MySqlParameter[] checkParams = {
+                new MySqlParameter("@uid", userId),
+                new MySqlParameter("@pid", productId)
             };
             DataTable dt = db.ExecuteQuery(checkQuery, checkParams);
             int count = Convert.ToInt32(dt.Rows[0][0]);
@@ -108,9 +108,9 @@ namespace OnlineStoreApp
             string productName = dgvProducts.CurrentRow.Cells["Name"].Value.ToString();
 
             string checkQuery = "SELECT COUNT(*) FROM Favorites WHERE UserId = @uid AND ProductId = @pid";
-            SqlParameter[] checkParams = {
-                new SqlParameter("@uid", userId),
-                new SqlParameter("@pid", productId)
+            MySqlParameter[] checkParams = {
+                new MySqlParameter("@uid", userId),
+                new MySqlParameter("@pid", productId)
             };
             DataTable dt = db.ExecuteQuery(checkQuery, checkParams);
             int count = Convert.ToInt32(dt.Rows[0][0]);

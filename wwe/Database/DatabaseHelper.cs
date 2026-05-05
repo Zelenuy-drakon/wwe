@@ -1,6 +1,6 @@
 ﻿using System;          
 using System.Data;
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Configuration;
 
 namespace OnlineStoreApp
@@ -21,29 +21,29 @@ namespace OnlineStoreApp
 
         public string GetConnectionString() => connectionString;
 
-        public DataTable ExecuteQuery(string query, SqlParameter[]? parameters = null)
+        public DataTable ExecuteQuery(string query, MySqlParameter[]? parameters = null)
         {
-            using var conn = new SqlConnection(connectionString);
-            using var cmd = new SqlCommand(query, conn);
+            using var conn = new MySqlConnection(connectionString);
+            using var cmd = new MySqlCommand(query, conn);
             if (parameters != null)
             {
                 cmd.Parameters.AddRange(parameters);
             }
-            using var da = new SqlDataAdapter(cmd);
+            using var da = new MySqlDataAdapter(cmd);
             var dt = new DataTable();
             da.Fill(dt);
             return dt;
         }
 
-        public DataTable ExecuteQuery(string query, SqlParameter parameter)
+        public DataTable ExecuteQuery(string query, MySqlParameter parameter)
         {
             return ExecuteQuery(query, new[] { parameter });
         }
 
-        public int ExecuteNonQuery(string query, SqlParameter[]? parameters = null)
+        public int ExecuteNonQuery(string query, MySqlParameter[]? parameters = null)
         {
-            using var conn = new SqlConnection(connectionString);
-            using var cmd = new SqlCommand(query, conn);
+            using var conn = new MySqlConnection(connectionString);
+            using var cmd = new MySqlCommand(query, conn);
             if (parameters != null)
             {
                 cmd.Parameters.AddRange(parameters);
@@ -52,15 +52,15 @@ namespace OnlineStoreApp
             return cmd.ExecuteNonQuery();
         }
 
-        public int ExecuteNonQuery(string query, SqlParameter parameter)
+        public int ExecuteNonQuery(string query, MySqlParameter parameter)
         {
             return ExecuteNonQuery(query, new[] { parameter });
         }
 
-        public object? ExecuteScalar(string query, SqlParameter[]? parameters = null)
+        public object? ExecuteScalar(string query, MySqlParameter[]? parameters = null)
         {
-            using var conn = new SqlConnection(connectionString);
-            using var cmd = new SqlCommand(query, conn);
+            using var conn = new MySqlConnection(connectionString);
+            using var cmd = new MySqlCommand(query, conn);
             if (parameters != null)
             {
                 cmd.Parameters.AddRange(parameters);
@@ -69,7 +69,7 @@ namespace OnlineStoreApp
             return cmd.ExecuteScalar();
         }
 
-        public object? ExecuteScalar(string query, SqlParameter parameter)
+        public object? ExecuteScalar(string query, MySqlParameter parameter)
         {
             return ExecuteScalar(query, new[] { parameter });
         }

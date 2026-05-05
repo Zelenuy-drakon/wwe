@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -25,7 +25,7 @@ namespace OnlineStoreApp
                              JOIN Products p ON c.ProductId = p.ProductId
                              WHERE c.UserId = @uid";
 
-            SqlParameter[] p = { new SqlParameter("@uid", userId) };
+            MySqlParameter[] p = { new MySqlParameter("@uid", userId) };
 
             try
             {
@@ -62,7 +62,7 @@ namespace OnlineStoreApp
 
             if (result != DialogResult.Yes) return;
 
-            using (var conn = new SqlConnection(db.GetConnectionString()))
+            using (var conn = new MySqlConnection(db.GetConnectionString()))
             {
                 conn.Open();
                 using (var tran = conn.BeginTransaction())
@@ -76,7 +76,7 @@ namespace OnlineStoreApp
                             JOIN Products p ON c.ProductId = p.ProductId
                             WHERE c.UserId = @uid";
 
-                        using (var cmdCart = new SqlCommand(cartSql, conn, tran))
+                        using (var cmdCart = new MySqlCommand(cartSql, conn, tran))
                         {
                             cmdCart.Parameters.AddWithValue("@uid", userId);
                             using (var dr = cmdCart.ExecuteReader())
@@ -114,7 +114,7 @@ namespace OnlineStoreApp
                                     OUTPUT INSERTED.OrderId
                                     VALUES (@uid, @total, @addr, @phone, 'Pending', @orderDate)";
 
-                                using (var cmdOrder = new SqlCommand(orderSql, conn, tran))
+                                using (var cmdOrder = new MySqlCommand(orderSql, conn, tran))
                                 {
                                     cmdOrder.Parameters.AddWithValue("@uid", userId);
                                     cmdOrder.Parameters.AddWithValue("@total", total);
@@ -131,7 +131,7 @@ namespace OnlineStoreApp
                                             INSERT INTO OrderItems (OrderId, ProductId, Quantity, Price) 
                                             VALUES (@oid, @pid, @qty, @price)";
 
-                                        using (var cmdItem = new SqlCommand(itemSql, conn, tran))
+                                        using (var cmdItem = new MySqlCommand(itemSql, conn, tran))
                                         {
                                             cmdItem.Parameters.AddWithValue("@oid", orderId);
                                             cmdItem.Parameters.AddWithValue("@pid", item.productId);
@@ -141,7 +141,7 @@ namespace OnlineStoreApp
                                         }
 
                                         string updateStock = "UPDATE Products SET Stock = Stock - @qty WHERE ProductId = @pid";
-                                        using (var cmdStock = new SqlCommand(updateStock, conn, tran))
+                                        using (var cmdStock = new MySqlCommand(updateStock, conn, tran))
                                         {
                                             cmdStock.Parameters.AddWithValue("@qty", item.quantity);
                                             cmdStock.Parameters.AddWithValue("@pid", item.productId);
@@ -151,7 +151,7 @@ namespace OnlineStoreApp
 
                                     // Очищаем корзину
                                     string clearCart = "DELETE FROM Cart WHERE UserId = @uid";
-                                    using (var cmdClear = new SqlCommand(clearCart, conn, tran))
+                                    using (var cmdClear = new MySqlCommand(clearCart, conn, tran))
                                     {
                                         cmdClear.Parameters.AddWithValue("@uid", userId);
                                         cmdClear.ExecuteNonQuery();

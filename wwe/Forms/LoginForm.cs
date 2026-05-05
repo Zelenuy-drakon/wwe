@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace OnlineStoreApp
@@ -26,9 +26,9 @@ namespace OnlineStoreApp
             }
 
             string query = "SELECT UserId FROM Users WHERE Username = @user AND PasswordHash = @pass";
-            SqlParameter[] p = {
-                new SqlParameter("@user", username),
-                new SqlParameter("@pass", password)
+            MySqlParameter[] p = {
+                new MySqlParameter("@user", username),
+                new MySqlParameter("@pass", password)
             };
 
             DataTable dt = db.ExecuteQuery(query, p);

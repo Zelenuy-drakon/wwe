@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace OnlineStoreApp
@@ -28,7 +28,7 @@ namespace OnlineStoreApp
             }
 
             string query = "SELECT SecurityQuestion, SecurityAnswer FROM Users WHERE Username = @user";
-            var parameter = new SqlParameter("@user", currentUsername);
+            var parameter = new MySqlParameter("@user", currentUsername);
             DataTable dt = db.ExecuteQuery(query, parameter);
 
             if (dt.Rows.Count > 0)
@@ -96,9 +96,9 @@ namespace OnlineStoreApp
             }
 
             string updateQuery = "UPDATE Users SET PasswordHash = @pass WHERE Username = @user";
-            SqlParameter[] p = {
-                new SqlParameter("@pass", newPassword),
-                new SqlParameter("@user", currentUsername)
+            MySqlParameter[] p = {
+                new MySqlParameter("@pass", newPassword),
+                new MySqlParameter("@user", currentUsername)
             };
             db.ExecuteNonQuery(updateQuery, p);
 
