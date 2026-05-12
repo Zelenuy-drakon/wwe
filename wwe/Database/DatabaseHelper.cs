@@ -1,7 +1,8 @@
-﻿using System;          
-using System.Data;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
+using System;          
 using System.Configuration;
+using System.Data;
+using System.Net.Sockets;
 
 namespace OnlineStoreApp
 {
@@ -37,7 +38,7 @@ namespace OnlineStoreApp
 
         public DataTable ExecuteQuery(string query, MySqlParameter parameter)
         {
-            return ExecuteQuery(query, new[] { parameter });
+            return ExecuteQueryWithRetry(query, new[] { parameter });
         }
 
         public int ExecuteNonQuery(string query, MySqlParameter[]? parameters = null)
@@ -50,6 +51,7 @@ namespace OnlineStoreApp
             }
             conn.Open();
             return cmd.ExecuteNonQuery();
+            
         }
 
         public int ExecuteNonQuery(string query, MySqlParameter parameter)
@@ -67,11 +69,34 @@ namespace OnlineStoreApp
             }
             conn.Open();
             return cmd.ExecuteScalar();
-        }
 
+        }
+        public DataTable ExecuteQueryWithRetry(string query, MySqlParameter[]? parameters = null, int retryCount = 3)
+        {
+            for (int i = 0; i < retryCount; i++)
+            {
+                try
+                {
+                    return ExecuteQuery(query, parameters);
+                }
+                catch (MySqlException ex)
+                {
+                    
+                    if ((ex.Number == 0 && ex.Message.Contains("Fatal error")) || ex.Message.Contains("gone away") || ex.InnerException is SocketException)
+                    {
+                        Console.WriteLine($"Пиздец с подключением, переподключаюсь, попытка {i + 1} из {retryCount}. Ошибка: {ex.Message}");
+                        System.Threading.Thread.Sleep(1000 * (i + 1)); 
+                        continue;
+                    }
+                    throw; 
+                }
+            }
+            return new DataTable();
+        }
         public object? ExecuteScalar(string query, MySqlParameter parameter)
         {
             return ExecuteScalar(query, new[] { parameter });
+
         }
     }
 }

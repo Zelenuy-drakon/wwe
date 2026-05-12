@@ -46,7 +46,7 @@ namespace OnlineStoreApp
                 WHERE f.UserId = @uid";
 
             MySqlParameter[] p = { new MySqlParameter("@uid", userId) };
-            DataTable dt = db.ExecuteQuery(query, p);
+            DataTable dt = db.ExecuteQueryWithRetry(query, p);
 
             foreach (DataRow row in dt.Rows)
             {
@@ -89,7 +89,7 @@ namespace OnlineStoreApp
                 new MySqlParameter("@pid", productId)
             };
 
-            DataTable dt = db.ExecuteQuery(checkQuery, checkParams);
+            DataTable dt = db.ExecuteQueryWithRetry(checkQuery, checkParams);
             int count = Convert.ToInt32(dt.Rows[0][0]);
 
             if (count > 0)

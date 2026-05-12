@@ -31,7 +31,7 @@ namespace OnlineStoreApp
                 new MySqlParameter("@pass", password)
             };
 
-            DataTable dt = db.ExecuteQuery(query, p);
+            DataTable dt = db.ExecuteQueryWithRetry(query, p);
 
             if (dt.Rows.Count > 0)
             {

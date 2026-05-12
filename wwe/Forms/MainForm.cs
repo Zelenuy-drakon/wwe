@@ -21,7 +21,7 @@ namespace OnlineStoreApp
 
         private void LoadCategories()
         {
-            DataTable dt = db.ExecuteQuery("SELECT * FROM Categories");
+            DataTable dt = db.ExecuteQueryWithRetry("SELECT * FROM Categories");
             cmbCategories.DataSource = dt;
             cmbCategories.DisplayMember = "Name";
             cmbCategories.ValueMember = "CategoryId";
@@ -46,7 +46,7 @@ namespace OnlineStoreApp
                 parameters.Add(new MySqlParameter("@categoryId", categoryId.Value));
             }
 
-            DataTable dt = db.ExecuteQuery(query, parameters.ToArray());
+            DataTable dt = db.ExecuteQueryWithRetry(query, parameters.ToArray());
             dgvProducts.DataSource = dt;
 
             if (dgvProducts.Columns.Contains("ProductId"))
@@ -83,7 +83,7 @@ namespace OnlineStoreApp
                 new MySqlParameter("@uid", userId),
                 new MySqlParameter("@pid", productId)
             };
-            DataTable dt = db.ExecuteQuery(checkQuery, checkParams);
+            DataTable dt = db.ExecuteQueryWithRetry(checkQuery, checkParams);
             int count = Convert.ToInt32(dt.Rows[0][0]);
 
             if (count > 0)
@@ -112,7 +112,7 @@ namespace OnlineStoreApp
                 new MySqlParameter("@uid", userId),
                 new MySqlParameter("@pid", productId)
             };
-            DataTable dt = db.ExecuteQuery(checkQuery, checkParams);
+            DataTable dt = db.ExecuteQueryWithRetry(checkQuery, checkParams);
             int count = Convert.ToInt32(dt.Rows[0][0]);
 
             if (count > 0)
