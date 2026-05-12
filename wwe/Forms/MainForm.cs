@@ -34,7 +34,7 @@ namespace OnlineStoreApp
                 SELECT p.ProductId, p.Name, p.Price, p.Stock, c.Name as CategoryName 
                 FROM Products p 
                 JOIN Categories c ON p.CategoryId = c.CategoryId
-                WHERE (p.Name LIKE '%' + @search + '%' OR @search = '')
+                WHERE (p.Name LIKE CONCAT('%', @search, '%') OR @search = '')
             ";
 
             var parameters = new List<MySqlParameter>();
