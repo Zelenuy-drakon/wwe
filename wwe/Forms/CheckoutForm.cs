@@ -18,7 +18,7 @@ namespace OnlineStoreApp
             LoadTotal();
         }
 
-        private void LoadTotal()
+        private async void LoadTotal()
         {
             string query = @"SELECT ISNULL(SUM(p.Price * c.Quantity), 0) as Total
                              FROM Cart c
@@ -29,7 +29,7 @@ namespace OnlineStoreApp
 
             try
             {
-                object result = db.ExecuteScalar(query, p);
+                object result = await db.ExecuteScalarAsync(query, p);
                 decimal total = result != null ? Convert.ToDecimal(result) : 0;
                 lblTotal.Text = $"Итого к оплате: {total:C}";
             }
@@ -40,7 +40,7 @@ namespace OnlineStoreApp
             }
         }
 
-        private void btnConfirmOrder_Click(object sender, EventArgs e)
+        private async void btnConfirmOrder_Click(object sender, EventArgs e)
         {
             string address = txtAddress.Text.Trim();
             string phone = txtPhone.Text.Trim();
@@ -65,11 +65,10 @@ namespace OnlineStoreApp
             using (var conn = new MySqlConnection(db.GetConnectionString()))
             {
                 conn.Open();
-                using (var tran = conn.BeginTransaction())
+                using (var tran = await conn.BeginTransactionAsync())
                 {
                     try
                     {
-                        // Получаем товары из корзины
                         string cartSql = @"
                             SELECT p.ProductId, c.Quantity, p.Price, p.Stock
                             FROM Cart c 
@@ -79,11 +78,11 @@ namespace OnlineStoreApp
                         using (var cmdCart = new MySqlCommand(cartSql, conn, tran))
                         {
                             cmdCart.Parameters.AddWithValue("@uid", userId);
-                            using (var dr = cmdCart.ExecuteReader())
+                            using (var dr = await cmdCart.ExecuteReaderAsync())
                             {
                                 var items = new List<(int productId, int quantity, decimal price)>();
 
-                                while (dr.Read())
+                                while (await dr.ReadAsync())
                                 {
                                     int stock = dr.GetInt32(3);
                                     int quantity = dr.GetInt32(1);
@@ -101,14 +100,12 @@ namespace OnlineStoreApp
                                         dr.GetDecimal(2)
                                     ));
                                 }
-                                dr.Close();
+                                await dr.CloseAsync();
 
-                                // Вычисляем общую сумму
                                 decimal total = 0;
                                 foreach (var item in items)
                                     total += item.price * item.quantity;
 
-                                // Создаем заказ
                                 string orderSql = @"
                                     INSERT INTO Orders (UserId, TotalAmount, ShippingAddress, Phone, Status, OrderDate) 
                                     OUTPUT INSERTED.OrderId
@@ -122,9 +119,9 @@ namespace OnlineStoreApp
                                     cmdOrder.Parameters.AddWithValue("@phone", phone);
                                     cmdOrder.Parameters.AddWithValue("@orderDate", DateTime.Now);
 
-                                    int orderId = (int)cmdOrder.ExecuteScalar();
+                                    int orderId =  (int)await cmdOrder.ExecuteScalarAsync();
 
-                                    // Добавляем товары в заказ и обновляем склад
+                                    
                                     foreach (var item in items)
                                     {
                                         string itemSql = @"
@@ -137,7 +134,7 @@ namespace OnlineStoreApp
                                             cmdItem.Parameters.AddWithValue("@pid", item.productId);
                                             cmdItem.Parameters.AddWithValue("@qty", item.quantity);
                                             cmdItem.Parameters.AddWithValue("@price", item.price);
-                                            cmdItem.ExecuteNonQuery();
+                                            await cmdItem.ExecuteNonQueryAsync();
                                         }
 
                                         string updateStock = "UPDATE Products SET Stock = Stock - @qty WHERE ProductId = @pid";
@@ -145,19 +142,19 @@ namespace OnlineStoreApp
                                         {
                                             cmdStock.Parameters.AddWithValue("@qty", item.quantity);
                                             cmdStock.Parameters.AddWithValue("@pid", item.productId);
-                                            cmdStock.ExecuteNonQuery();
+                                            await cmdStock.ExecuteNonQueryAsync();
                                         }
                                     }
 
-                                    // Очищаем корзину
+                                    
                                     string clearCart = "DELETE FROM Cart WHERE UserId = @uid";
                                     using (var cmdClear = new MySqlCommand(clearCart, conn, tran))
                                     {
                                         cmdClear.Parameters.AddWithValue("@uid", userId);
-                                        cmdClear.ExecuteNonQuery();
+                                        await cmdClear.ExecuteScalarAsync();
                                     }
 
-                                    tran.Commit();
+                                    await tran.CommitAsync();
 
                                     MessageBox.Show($"Заказ №{orderId} успешно оформлен!\nСумма: {total:C}\nДоставка по адресу: {address}",
                                         "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -169,7 +166,7 @@ namespace OnlineStoreApp
                     }
                     catch (Exception ex)
                     {
-                        tran.Rollback();
+                        await tran.RollbackAsync();
                         MessageBox.Show($"Ошибка при оформлении заказа: {ex.Message}", "Ошибка",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }

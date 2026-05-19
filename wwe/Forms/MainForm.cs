@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using MySql.Data.MySqlClient;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OnlineStoreApp
 {
-    public partial class MainForm : Form
+    public  partial class MainForm : Form
     {
         private readonly int userId;
         private readonly DatabaseHelper db = new DatabaseHelper();
@@ -15,20 +16,24 @@ namespace OnlineStoreApp
         {
             InitializeComponent();
             this.userId = userId;
-            LoadCategories();
-            LoadProducts();
+            this.Load += async (s, e) => await LoadDataAsync();
+        }
+        private async Task LoadDataAsync()
+        {
+            await LoadCategoriesAsync();
+            await LoadProductsAsync();
         }
 
-        private void LoadCategories()
+        private async Task LoadCategoriesAsync()
         {
-            DataTable dt = db.ExecuteQueryWithRetry("SELECT * FROM Categories");
+            DataTable dt = await db.ExecuteQueryAsync("SELECT * FROM Categories");
             cmbCategories.DataSource = dt;
             cmbCategories.DisplayMember = "Name";
             cmbCategories.ValueMember = "CategoryId";
             cmbCategories.SelectedIndex = -1;
         }
 
-        private void LoadProducts(string search = "", int? categoryId = null)
+        private async Task LoadProductsAsync(string search = "", int? categoryId = null)
         {
             string query = @"
                 SELECT p.ProductId, p.Name, p.Price, p.Stock, c.Name as CategoryName 
@@ -46,7 +51,7 @@ namespace OnlineStoreApp
                 parameters.Add(new MySqlParameter("@categoryId", categoryId.Value));
             }
 
-            DataTable dt = db.ExecuteQueryWithRetry(query, parameters.ToArray());
+            DataTable dt = await db.ExecuteQueryAsync(query, parameters.ToArray());
             dgvProducts.DataSource = dt;
 
             if (dgvProducts.Columns.Contains("ProductId"))
@@ -55,23 +60,23 @@ namespace OnlineStoreApp
             dgvProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void cmbCategories_SelectedIndexChanged(object sender, EventArgs e)
+        private async void cmbCategories_SelectedIndexChanged(object sender, EventArgs e)
         {
             int? catId = null;
             if (cmbCategories.SelectedValue != null && cmbCategories.SelectedValue is int)
                 catId = (int)cmbCategories.SelectedValue;
-            LoadProducts(txtSearch.Text, catId);
+           await LoadProductsAsync(txtSearch.Text, catId);
         }
 
-        private void txtSearch_TextChanged(object sender, EventArgs e)
+        private async void txtSearch_TextChanged(object sender, EventArgs e)
         {
             int? catId = null;
             if (cmbCategories.SelectedValue != null && cmbCategories.SelectedValue is int)
                 catId = (int)cmbCategories.SelectedValue;
-            LoadProducts(txtSearch.Text, catId);
+            await LoadProductsAsync(txtSearch.Text, catId);
         }
 
-        private void btnAddToCart_Click(object sender, EventArgs e)
+        private async void btnAddToCart_Click(object sender, EventArgs e)
         {
             if (dgvProducts.CurrentRow == null) return;
 
@@ -83,24 +88,25 @@ namespace OnlineStoreApp
                 new MySqlParameter("@uid", userId),
                 new MySqlParameter("@pid", productId)
             };
-            DataTable dt = db.ExecuteQueryWithRetry(checkQuery, checkParams);
+            DataTable dt = await db.ExecuteQueryAsync(checkQuery, checkParams);
             int count = Convert.ToInt32(dt.Rows[0][0]);
 
             if (count > 0)
             {
                 string updateQuery = "UPDATE Cart SET Quantity = Quantity + 1 WHERE UserId = @uid AND ProductId = @pid";
-                db.ExecuteNonQuery(updateQuery, checkParams);
+                
+                await db.ExecuteNonQueryAsync(updateQuery, checkParams);
             }
             else
             {
                 string insertQuery = "INSERT INTO Cart (UserId, ProductId, Quantity) VALUES (@uid, @pid, 1)";
-                db.ExecuteNonQuery(insertQuery, checkParams);
+                await db.ExecuteNonQueryAsync(insertQuery, checkParams);
             }
 
             MessageBox.Show($"Товар \"{productName}\" добавлен в корзину", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void btnAddToFavorites_Click(object sender, EventArgs e)
+        private async void btnAddToFavorites_Click(object sender, EventArgs e)
         {
             if (dgvProducts.CurrentRow == null) return;
 
@@ -112,7 +118,7 @@ namespace OnlineStoreApp
                 new MySqlParameter("@uid", userId),
                 new MySqlParameter("@pid", productId)
             };
-            DataTable dt = db.ExecuteQueryWithRetry(checkQuery, checkParams);
+            DataTable dt = await db.ExecuteQueryAsync(checkQuery, checkParams);
             int count = Convert.ToInt32(dt.Rows[0][0]);
 
             if (count > 0)
@@ -122,7 +128,7 @@ namespace OnlineStoreApp
             }
 
             string insertQuery = "INSERT INTO Favorites (UserId, ProductId) VALUES (@uid, @pid)";
-            db.ExecuteNonQuery(insertQuery, checkParams);
+            await db.ExecuteNonQueryAsync(insertQuery, checkParams);
             MessageBox.Show($"Товар \"{productName}\" добавлен в избранное", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

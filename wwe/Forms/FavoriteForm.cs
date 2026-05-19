@@ -2,6 +2,7 @@
 using System.Data;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace OnlineStoreApp
 {
@@ -15,7 +16,8 @@ namespace OnlineStoreApp
             InitializeComponent();
             this.userId = userId;
             SetupDataGridViewColumns();
-            LoadFavorites();
+            this.Load += async (s, e) => await LoadFavoritesAsync();
+
         }
 
         private void SetupDataGridViewColumns()
@@ -35,7 +37,7 @@ namespace OnlineStoreApp
             dgvFavorites.Columns["Price"].DefaultCellStyle.Format = "C";
         }
 
-        private void LoadFavorites()
+        private async Task LoadFavoritesAsync()
         {
             dgvFavorites.Rows.Clear();
 
@@ -46,7 +48,7 @@ namespace OnlineStoreApp
                 WHERE f.UserId = @uid";
 
             MySqlParameter[] p = { new MySqlParameter("@uid", userId) };
-            DataTable dt = db.ExecuteQueryWithRetry(query, p);
+            DataTable dt = await db.ExecuteQueryAsync(query, p);
 
             foreach (DataRow row in dt.Rows)
             {
@@ -59,7 +61,7 @@ namespace OnlineStoreApp
             }
         }
 
-        private void btnRemove_Click(object sender, EventArgs e)
+        private async void btnRemove_Click(object sender, EventArgs e)
         {
             if (dgvFavorites.CurrentRow == null) return;
 
@@ -72,11 +74,11 @@ namespace OnlineStoreApp
             if (result == DialogResult.Yes)
             {
                 db.ExecuteNonQuery("DELETE FROM Favorites WHERE FavoriteId = @id", new MySqlParameter("@id", favoriteId));
-                LoadFavorites();
+                await LoadFavoritesAsync();
             }
         }
 
-        private void btnAddToCart_Click(object sender, EventArgs e)
+        private async void btnAddToCart_Click(object sender, EventArgs e)
         {
             if (dgvFavorites.CurrentRow == null) return;
 
@@ -89,18 +91,18 @@ namespace OnlineStoreApp
                 new MySqlParameter("@pid", productId)
             };
 
-            DataTable dt = db.ExecuteQueryWithRetry(checkQuery, checkParams);
+            DataTable dt = await db.ExecuteQueryAsync(checkQuery, checkParams);
             int count = Convert.ToInt32(dt.Rows[0][0]);
 
             if (count > 0)
             {
                 string updateQuery = "UPDATE Cart SET Quantity = Quantity + 1 WHERE UserId = @uid AND ProductId = @pid";
-                db.ExecuteNonQuery(updateQuery, checkParams);
+                await db.ExecuteNonQueryAsync(updateQuery, checkParams);
             }
             else
             {
                 string insertQuery = "INSERT INTO Cart (UserId, ProductId, Quantity) VALUES (@uid, @pid, 1)";
-                db.ExecuteNonQuery(insertQuery, checkParams);
+                await db.ExecuteQueryAsync(insertQuery, checkParams);
             }
 
             MessageBox.Show($"Товар \"{productName}\" добавлен в корзину", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);

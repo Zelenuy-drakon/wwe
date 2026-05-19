@@ -2,6 +2,7 @@
 using System.Data;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace OnlineStoreApp
 {
@@ -15,7 +16,7 @@ namespace OnlineStoreApp
             InitializeComponent();
             this.userId = userId;
             SetupDataGridViewColumns();
-            LoadCart();
+            LoadCartAsync();
         }
 
         private void SetupDataGridViewColumns()
@@ -47,7 +48,7 @@ namespace OnlineStoreApp
                 dgvCart.Columns["Total"].DefaultCellStyle.Format = "C";
         }
 
-        private void LoadCart()
+        private async Task LoadCartAsync()
         {
             dgvCart.Rows.Clear();
 
@@ -58,7 +59,7 @@ namespace OnlineStoreApp
                 WHERE c.UserId = @uid";
 
             var parameter = new MySqlParameter("@uid", userId);
-            DataTable dt = db.ExecuteQuery(query, parameter);
+            DataTable dt = await db.ExecuteQueryAsync(query, parameter);
 
             foreach (DataRow row in dt.Rows)
             {
@@ -88,7 +89,7 @@ namespace OnlineStoreApp
             lblTotal.Text = $"Итого: {total:C}";
         }
 
-        private void btnRemove_Click(object sender, EventArgs e)
+        private async void btnRemove_Click(object sender, EventArgs e)
         {
             if (dgvCart.CurrentRow == null) return;
 
@@ -106,12 +107,12 @@ namespace OnlineStoreApp
             if (result == DialogResult.Yes)
             {
                 var parameter = new MySqlParameter("@id", cartId);
-                db.ExecuteNonQuery("DELETE FROM Cart WHERE CartId = @id", parameter);
-                LoadCart();
+                await db.ExecuteNonQueryAsync("DELETE FROM Cart WHERE CartId = @id", parameter);
+                await LoadCartAsync();
             }
         }
 
-        private void btnUpdateQuantity_Click(object sender, EventArgs e)
+        private async void btnUpdateQuantity_Click(object sender, EventArgs e)
         {
             if (dgvCart.CurrentRow == null) return;
 
@@ -132,8 +133,8 @@ namespace OnlineStoreApp
                 new MySqlParameter("@qty", newQuantity),
                 new MySqlParameter("@id", cartId)
             };
-            db.ExecuteNonQuery(updateQuery, p);
-            LoadCart();
+            await db.ExecuteNonQueryAsync(updateQuery, p);
+            await  LoadCartAsync();
         }
 
         private void dgvCart_SelectionChanged(object sender, EventArgs e)
@@ -144,7 +145,7 @@ namespace OnlineStoreApp
             }
         }
 
-        private void btnCheckout_Click(object sender, EventArgs e)
+        private async void btnCheckout_Click(object sender, EventArgs e)
         {
             if (dgvCart.Rows.Count == 0)
             {
@@ -154,7 +155,7 @@ namespace OnlineStoreApp
 
             var checkout = new CheckoutForm(userId);
             checkout.ShowDialog();
-            LoadCart();
+            await LoadCartAsync();
         }
     }
 }

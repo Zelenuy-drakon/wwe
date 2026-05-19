@@ -17,7 +17,7 @@ namespace OnlineStoreApp
             gbNewPassword.Visible = false;
         }
 
-        private void btnCheckUser_Click(object sender, EventArgs e)
+        private async void btnCheckUser_Click(object sender, EventArgs e)
         {
             currentUsername = txtUsername.Text.Trim();
 
@@ -29,7 +29,7 @@ namespace OnlineStoreApp
 
             string query = "SELECT SecurityQuestion, SecurityAnswer FROM Users WHERE Username = @user";
             var parameter = new MySqlParameter("@user", currentUsername);
-            DataTable dt = db.ExecuteQuery(query, parameter);
+            DataTable dt = await db.ExecuteQueryAsync(query, parameter);
 
             if (dt.Rows.Count > 0)
             {
@@ -72,7 +72,7 @@ namespace OnlineStoreApp
             }
         }
 
-        private void btnResetPassword_Click(object sender, EventArgs e)
+        private async void btnResetPassword_Click(object sender, EventArgs e)
         {
             string newPassword = txtNewPassword.Text;
             string confirmPassword = txtConfirmPassword.Text;
@@ -100,7 +100,7 @@ namespace OnlineStoreApp
                 new MySqlParameter("@pass", newPassword),
                 new MySqlParameter("@user", currentUsername)
             };
-            db.ExecuteNonQuery(updateQuery, p);
+            await db.ExecuteNonQueryAsync(updateQuery, p);
 
             MessageBox.Show("Пароль успешно изменен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();

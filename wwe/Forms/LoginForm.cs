@@ -14,7 +14,7 @@ namespace OnlineStoreApp
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text;
@@ -31,7 +31,7 @@ namespace OnlineStoreApp
                 new MySqlParameter("@pass", password)
             };
 
-            DataTable dt = db.ExecuteQueryWithRetry(query, p);
+            DataTable dt = await  db.ExecuteQueryAsync(query, p);
 
             if (dt.Rows.Count > 0)
             {
