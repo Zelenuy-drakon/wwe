@@ -119,7 +119,7 @@ namespace OnlineStoreApp
                                     cmdOrder.Parameters.AddWithValue("@phone", phone);
                                     cmdOrder.Parameters.AddWithValue("@orderDate", DateTime.Now);
 
-                                    int orderId =  (int)await cmdOrder.ExecuteScalarAsync();
+                                    int orderId =  Convert.ToInt32(await cmdOrder.ExecuteScalarAsync());
 
                                     
                                     foreach (var item in items)
