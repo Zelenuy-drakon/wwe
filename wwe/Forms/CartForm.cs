@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Data;
-using MySql.Data.MySqlClient;
-using System.Windows.Forms;
+using System.Drawing;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace OnlineStoreApp
 {
@@ -10,7 +11,26 @@ namespace OnlineStoreApp
     {
         private readonly int userId;
         private readonly DatabaseHelper db = new DatabaseHelper();
+        // Добавьте этот метод в класс CartForm
+        private void dgvCart_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Проверяем, что это столбец с ценой (название столбца "Price" или "Цена")
+            if (dgvCart.Columns[e.ColumnIndex].Name == "Price" ||
+                dgvCart.Columns[e.ColumnIndex].HeaderText == "Цена" ||
+                dgvCart.Columns[e.ColumnIndex].HeaderText == "Price")
+            {
+                e.CellStyle.Font = new Font("Unbounded", 9F, FontStyle.Bold);
+                e.CellStyle.ForeColor = Color.FromArgb(46, 125, 50); // Зеленый цвет
+            }
 
+            // Также форматируем итоговую сумму
+            if (dgvCart.Columns[e.ColumnIndex].Name == "Total" ||
+                dgvCart.Columns[e.ColumnIndex].HeaderText == "Сумма")
+            {
+                e.CellStyle.Font = new Font("Unbounded", 9F, FontStyle.Bold);
+                e.CellStyle.ForeColor = Color.FromArgb(46, 125, 50); // Зеленый цвет
+            }
+        }
         public CartForm(int userId)
         {
             InitializeComponent();

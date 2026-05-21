@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace OnlineStoreApp
 {
-    public  partial class MainForm : Form
+    public partial class MainForm : Form
     {
         private readonly int userId;
         private readonly DatabaseHelper db = new DatabaseHelper();
@@ -65,7 +65,7 @@ namespace OnlineStoreApp
             int? catId = null;
             if (cmbCategories.SelectedValue != null && cmbCategories.SelectedValue is int)
                 catId = (int)cmbCategories.SelectedValue;
-           await LoadProductsAsync(txtSearch.Text, catId);
+            await LoadProductsAsync(txtSearch.Text, catId);
         }
 
         private async void txtSearch_TextChanged(object sender, EventArgs e)
@@ -94,7 +94,7 @@ namespace OnlineStoreApp
             if (count > 0)
             {
                 string updateQuery = "UPDATE Cart SET Quantity = Quantity + 1 WHERE UserId = @uid AND ProductId = @pid";
-                
+
                 await db.ExecuteNonQueryAsync(updateQuery, checkParams);
             }
             else
@@ -142,6 +142,11 @@ namespace OnlineStoreApp
         {
             var favForm = new FavoritesForm(userId);
             favForm.ShowDialog();
+        }
+
+        private void lblTitle_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

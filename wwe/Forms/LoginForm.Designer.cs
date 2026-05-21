@@ -1,4 +1,7 @@
-﻿namespace OnlineStoreApp
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace OnlineStoreApp
 {
     partial class LoginForm
     {
@@ -9,6 +12,14 @@
         private System.Windows.Forms.Button btnForgot;
         private System.Windows.Forms.Label lblUsername;
         private System.Windows.Forms.Label lblPassword;
+        private System.Windows.Forms.Panel pnlForm;
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Panel pnlDivider;
+        // Декоративные фигуры (уменьшенные и смещенные)
+        private System.Windows.Forms.Panel pnlCircle1;
+        private System.Windows.Forms.Panel pnlCircle2;
+        private System.Windows.Forms.Panel pnlDiamond1;
+        private System.Windows.Forms.Panel pnlLeaf1;
 
         protected override void Dispose(bool disposing)
         {
@@ -21,85 +32,229 @@
 
         private void InitializeComponent()
         {
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.btnLogin = new System.Windows.Forms.Button();
-            this.btnForgot = new System.Windows.Forms.Button();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.SuspendLayout();
-            // 
-            // lblUsername
-            // 
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(50, 30);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(41, 13);
-            this.lblUsername.TabIndex = 0;
-            this.lblUsername.Text = "Логин:";
+            txtUsername = new TextBox();
+            txtPassword = new TextBox();
+            btnLogin = new Button();
+            btnForgot = new Button();
+            lblUsername = new Label();
+            lblPassword = new Label();
+            pnlForm = new Panel();
+            lblTitle = new Label();
+            pnlDivider = new Panel();
+            pnlCircle1 = new Panel();
+            pnlCircle2 = new Panel();
+            pnlDiamond1 = new Panel();
+            pnlLeaf1 = new Panel();
+            pnlForm.SuspendLayout();
+            SuspendLayout();
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(120, 27);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(150, 20);
-            this.txtUsername.TabIndex = 1;
-            // 
-            // lblPassword
-            // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(50, 60);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(48, 13);
-            this.lblPassword.TabIndex = 2;
-            this.lblPassword.Text = "Пароль:";
+            txtUsername.BackColor = Color.FromArgb(245, 236, 215);
+            txtUsername.BorderStyle = BorderStyle.FixedSingle;
+            txtUsername.Font = new Font("Microsoft Sans Serif", 9F);
+            txtUsername.Location = new Point(50, 142);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(300, 21);
+            txtUsername.TabIndex = 2;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(120, 57);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(150, 20);
-            this.txtPassword.TabIndex = 3;
+            txtPassword.BackColor = Color.FromArgb(245, 236, 215);
+            txtPassword.BorderStyle = BorderStyle.FixedSingle;
+            txtPassword.Font = new Font("Microsoft Sans Serif", 9F);
+            txtPassword.Location = new Point(50, 207);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '●';
+            txtPassword.Size = new Size(300, 21);
+            txtPassword.TabIndex = 4;
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(90, 100);
-            this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(100, 30);
-            this.btnLogin.TabIndex = 4;
-            this.btnLogin.Text = "Войти";
-            this.btnLogin.UseVisualStyleBackColor = true;
-            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            btnLogin.BackColor = Color.FromArgb(139, 105, 20);
+            btnLogin.FlatAppearance.BorderSize = 0;
+            btnLogin.FlatStyle = FlatStyle.Flat;
+            btnLogin.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            btnLogin.ForeColor = Color.FromArgb(245, 236, 215);
+            btnLogin.Location = new Point(100, 260);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new Size(200, 40);
+            btnLogin.TabIndex = 5;
+            btnLogin.Text = "Войти";
+            btnLogin.UseVisualStyleBackColor = false;
+            btnLogin.Click += btnLogin_Click;
             // 
             // btnForgot
             // 
-            this.btnForgot.Location = new System.Drawing.Point(90, 140);
-            this.btnForgot.Name = "btnForgot";
-            this.btnForgot.Size = new System.Drawing.Size(100, 30);
-            this.btnForgot.TabIndex = 5;
-            this.btnForgot.Text = "Забыли пароль?";
-            this.btnForgot.UseVisualStyleBackColor = true;
-            this.btnForgot.Click += new System.EventHandler(this.btnForgot_Click);
+            btnForgot.BackColor = Color.Transparent;
+            btnForgot.FlatAppearance.BorderSize = 0;
+            btnForgot.FlatStyle = FlatStyle.Flat;
+            btnForgot.Font = new Font("Microsoft Sans Serif", 8F);
+            btnForgot.ForeColor = Color.FromArgb(139, 105, 20);
+            btnForgot.Location = new Point(120, 310);
+            btnForgot.Name = "btnForgot";
+            btnForgot.Size = new Size(160, 25);
+            btnForgot.TabIndex = 6;
+            btnForgot.Text = "Забыли пароль?";
+            btnForgot.UseVisualStyleBackColor = false;
+            btnForgot.Click += btnForgot_Click;
+            // 
+            // lblUsername
+            // 
+            lblUsername.AutoSize = true;
+            lblUsername.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+            lblUsername.ForeColor = Color.FromArgb(107, 66, 38);
+            lblUsername.Location = new Point(50, 120);
+            lblUsername.Name = "lblUsername";
+            lblUsername.Size = new Size(50, 15);
+            lblUsername.TabIndex = 1;
+            lblUsername.Text = "Логин:";
+            // 
+            // lblPassword
+            // 
+            lblPassword.AutoSize = true;
+            lblPassword.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+            lblPassword.ForeColor = Color.FromArgb(107, 66, 38);
+            lblPassword.Location = new Point(50, 185);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(61, 15);
+            lblPassword.TabIndex = 3;
+            lblPassword.Text = "Пароль:";
+            // 
+            // pnlForm
+            // 
+            pnlForm.BackColor = Color.FromArgb(255, 249, 240);
+            pnlForm.Controls.Add(lblTitle);
+            pnlForm.Controls.Add(lblUsername);
+            pnlForm.Controls.Add(txtUsername);
+            pnlForm.Controls.Add(lblPassword);
+            pnlForm.Controls.Add(txtPassword);
+            pnlForm.Controls.Add(btnLogin);
+            pnlForm.Controls.Add(btnForgot);
+            pnlForm.Controls.Add(pnlDivider);
+            pnlForm.Location = new Point(100, 60);
+            pnlForm.Name = "pnlForm";
+            pnlForm.Size = new Size(400, 480);
+            pnlForm.TabIndex = 0;
+            // 
+            // lblTitle
+            // 
+            lblTitle.Font = new Font("Microsoft Sans Serif", 28F, FontStyle.Italic);
+            lblTitle.ForeColor = Color.FromArgb(107, 66, 38);
+            lblTitle.Location = new Point(0, 35);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(400, 50);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Винтажный Бутик";
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // pnlDivider
+            // 
+            pnlDivider.BackColor = Color.FromArgb(212, 196, 168);
+            pnlDivider.Location = new Point(50, 95);
+            pnlDivider.Name = "pnlDivider";
+            pnlDivider.Size = new Size(300, 2);
+            pnlDivider.TabIndex = 8;
+            // 
+            // pnlCircle1
+            // 
+            pnlCircle1.BackColor = Color.Transparent;
+            pnlCircle1.Location = new Point(25, 25);
+            pnlCircle1.Name = "pnlCircle1";
+            pnlCircle1.Size = new Size(30, 30);
+            pnlCircle1.TabIndex = 10;
+            pnlCircle1.Paint += DrawCircle;
+            // 
+            // pnlCircle2
+            // 
+            pnlCircle2.BackColor = Color.Transparent;
+            pnlCircle2.Location = new Point(545, 20);
+            pnlCircle2.Name = "pnlCircle2";
+            pnlCircle2.Size = new Size(20, 20);
+            pnlCircle2.TabIndex = 11;
+            pnlCircle2.Paint += DrawAccentCircle;
+            // 
+            // pnlDiamond1
+            // 
+            pnlDiamond1.BackColor = Color.Transparent;
+            pnlDiamond1.Location = new Point(30, 520);
+            pnlDiamond1.Name = "pnlDiamond1";
+            pnlDiamond1.Size = new Size(25, 25);
+            pnlDiamond1.TabIndex = 14;
+            pnlDiamond1.Paint += DrawDiamond;
+            // 
+            // pnlLeaf1
+            // 
+            pnlLeaf1.BackColor = Color.Transparent;
+            pnlLeaf1.Location = new Point(595, 530);
+            pnlLeaf1.Name = "pnlLeaf1";
+            pnlLeaf1.Size = new Size(25, 20);
+            pnlLeaf1.TabIndex = 20;
+            pnlLeaf1.Paint += DrawLeaf;
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 191);
-            this.Controls.Add(this.btnForgot);
-            this.Controls.Add(this.btnLogin);
-            this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.lblPassword);
-            this.Controls.Add(this.txtUsername);
-            this.Controls.Add(this.lblUsername);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.Name = "LoginForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Вход в магазин";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(212, 196, 168);
+            ClientSize = new Size(650, 570);
+            Controls.Add(pnlLeaf1);
+            Controls.Add(pnlDiamond1);
+            Controls.Add(pnlCircle2);
+            Controls.Add(pnlCircle1);
+            Controls.Add(pnlForm);
+            Font = new Font("Microsoft Sans Serif", 9F);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            Name = "LoginForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            pnlForm.ResumeLayout(false);
+            pnlForm.PerformLayout();
+            ResumeLayout(false);
+        }
+
+        // Методы для рисования фигур
+        private void DrawCircle(object sender, PaintEventArgs e)
+        {
+            Panel pnl = sender as Panel;
+            using (Pen pen = new Pen(Color.FromArgb(218, 165, 32), 1.5f))
+            {
+                e.Graphics.DrawEllipse(pen, 0, 0, pnl.Width - 1, pnl.Height - 1);
+            }
+        }
+
+        private void DrawAccentCircle(object sender, PaintEventArgs e)
+        {
+            using (SolidBrush brush = new SolidBrush(Color.FromArgb(218, 165, 32)))
+            {
+                e.Graphics.FillEllipse(brush, 0, 0, 18, 18);
+            }
+        }
+
+        private void DrawDiamond(object sender, PaintEventArgs e)
+        {
+            Point[] points = new Point[]
+            {
+                new Point(12, 0),
+                new Point(24, 12),
+                new Point(12, 24),
+                new Point(0, 12)
+            };
+            using (Pen pen = new Pen(Color.FromArgb(204, 102, 68), 1.5f))
+            {
+                e.Graphics.DrawPolygon(pen, points);
+            }
+        }
+
+        private void DrawLeaf(object sender, PaintEventArgs e)
+        {
+            System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+            path.AddBezier(0, 10, 5, 0, 20, 0, 24, 10);
+            path.AddBezier(24, 10, 20, 19, 5, 19, 0, 10);
+            using (Pen pen = new Pen(Color.FromArgb(85, 107, 47), 1.5f))
+            {
+                e.Graphics.DrawPath(pen, path);
+            }
         }
     }
 }
