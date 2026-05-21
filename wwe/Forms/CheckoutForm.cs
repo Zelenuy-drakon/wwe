@@ -108,8 +108,8 @@ namespace OnlineStoreApp
 
                                 string orderSql = @"
                                     INSERT INTO Orders (UserId, TotalAmount, ShippingAddress, Phone, Status, OrderDate) 
-                                    OUTPUT INSERTED.OrderId
-                                    VALUES (@uid, @total, @addr, @phone, 'Pending', @orderDate)";
+                                    VALUES (@uid, @total, @addr, @phone, 'Pending', @orderDate);
+                                    SELECT LAST_INSERT_ID()";
 
                                 using (var cmdOrder = new MySqlCommand(orderSql, conn, tran))
                                 {
