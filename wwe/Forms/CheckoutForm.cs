@@ -20,7 +20,7 @@ namespace OnlineStoreApp
 
         private async void LoadTotal()
         {
-            string query = @"SELECT ISNULL(SUM(p.Price * c.Quantity), 0) as Total
+            string query = @"SELECT IFNULL(SUM(p.Price * c.Quantity), 0) as Total
                              FROM Cart c
                              JOIN Products p ON c.ProductId = p.ProductId
                              WHERE c.UserId = @uid";
@@ -31,11 +31,11 @@ namespace OnlineStoreApp
             {
                 object result = await db.ExecuteScalarAsync(query, p);
                 decimal total = result != null ? Convert.ToDecimal(result) : 0;
-                lblTotal.Text = $"Итого к оплате: {total:C}";
+                lblTotalAmount.Text = $"{total:C}";
             }
             catch (Exception ex)
             {
-                lblTotal.Text = "Итого к оплате: 0 ₽";
+                lblTotalAmount.Text = "Ошибка";
                 System.Diagnostics.Debug.WriteLine($"Ошибка загрузки суммы: {ex.Message}");
             }
         }
