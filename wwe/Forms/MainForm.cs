@@ -27,10 +27,19 @@ namespace OnlineStoreApp
         private async Task LoadCategoriesAsync()
         {
             DataTable dt = await db.ExecuteQueryAsync("SELECT * FROM Categories");
-            cmbCategories.DataSource = dt;
+            DataTable dtWithAll = new DataTable();
+            dtWithAll.Columns.Add("CategoryId", typeof(int));
+            dtWithAll.Columns.Add("Name", typeof(string));
+            dtWithAll.Rows.Add(-1, "━ Всё ━");
+            foreach (DataRow row in dt.Rows)
+            {
+                dtWithAll.Rows.Add(row["CategoryId"], row["Name"]);
+            }
+
+            cmbCategories.DataSource = dtWithAll;
             cmbCategories.DisplayMember = "Name";
             cmbCategories.ValueMember = "CategoryId";
-            cmbCategories.SelectedIndex = -1;
+            cmbCategories.SelectedIndex = 0;
         }
 
         private async Task LoadProductsAsync(string search = "", int? categoryId = null)
@@ -45,7 +54,7 @@ namespace OnlineStoreApp
             var parameters = new List<MySqlParameter>();
             parameters.Add(new MySqlParameter("@search", search));
 
-            if (categoryId.HasValue)
+            if (categoryId.HasValue && categoryId.Value != -1)
             {
                 query += " AND p.CategoryId = @categoryId";
                 parameters.Add(new MySqlParameter("@categoryId", categoryId.Value));

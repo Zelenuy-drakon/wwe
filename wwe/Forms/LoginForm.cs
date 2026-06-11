@@ -1,12 +1,14 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Data;
-using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using wwe.Forms;
 
 namespace OnlineStoreApp
 {
     public partial class LoginForm : Form
     {
+        private System.Windows.Forms.Button btnRegister;
         private readonly DatabaseHelper db = new DatabaseHelper();
 
         public LoginForm()
@@ -50,6 +52,11 @@ namespace OnlineStoreApp
         {
             var resetForm = new PasswordResetForm();
             resetForm.ShowDialog();
+        }
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            var registerForm = new RegisterForm();
+            registerForm.ShowDialog();
         }
     }
 }

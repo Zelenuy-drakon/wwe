@@ -11,26 +11,7 @@ namespace OnlineStoreApp
     {
         private readonly int userId;
         private readonly DatabaseHelper db = new DatabaseHelper();
-        // Добавьте этот метод в класс CartForm
-        private void dgvCart_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            // Проверяем, что это столбец с ценой (название столбца "Price" или "Цена")
-            if (dgvCart.Columns[e.ColumnIndex].Name == "Price" ||
-                dgvCart.Columns[e.ColumnIndex].HeaderText == "Цена" ||
-                dgvCart.Columns[e.ColumnIndex].HeaderText == "Price")
-            {
-                e.CellStyle.Font = new Font("Unbounded", 9F, FontStyle.Bold);
-                e.CellStyle.ForeColor = Color.FromArgb(46, 125, 50); // Зеленый цвет
-            }
-
-            // Также форматируем итоговую сумму
-            if (dgvCart.Columns[e.ColumnIndex].Name == "Total" ||
-                dgvCart.Columns[e.ColumnIndex].HeaderText == "Сумма")
-            {
-                e.CellStyle.Font = new Font("Unbounded", 9F, FontStyle.Bold);
-                e.CellStyle.ForeColor = Color.FromArgb(46, 125, 50); // Зеленый цвет
-            }
-        }
+       
         public CartForm(int userId)
         {
             InitializeComponent();
@@ -106,7 +87,7 @@ namespace OnlineStoreApp
                     total += Convert.ToDecimal(row.Cells["Total"].Value);
                 }
             }
-            lblTotal.Text = $"Итого: {total:C}";
+            lblTotalAmount.Text = $"{total:C}";
         }
 
         private async void btnRemove_Click(object sender, EventArgs e)

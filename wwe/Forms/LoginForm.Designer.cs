@@ -32,6 +32,7 @@ namespace OnlineStoreApp
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             txtUsername = new TextBox();
             txtPassword = new TextBox();
             btnLogin = new Button();
@@ -45,6 +46,7 @@ namespace OnlineStoreApp
             pnlCircle2 = new Panel();
             pnlDiamond1 = new Panel();
             pnlLeaf1 = new Panel();
+            btn_Reg = new Button();
             pnlForm.SuspendLayout();
             SuspendLayout();
             // 
@@ -124,6 +126,7 @@ namespace OnlineStoreApp
             // pnlForm
             // 
             pnlForm.BackColor = Color.FromArgb(255, 249, 240);
+            pnlForm.Controls.Add(btn_Reg);
             pnlForm.Controls.Add(lblTitle);
             pnlForm.Controls.Add(lblUsername);
             pnlForm.Controls.Add(txtUsername);
@@ -192,6 +195,21 @@ namespace OnlineStoreApp
             pnlLeaf1.TabIndex = 20;
             pnlLeaf1.Paint += DrawLeaf;
             // 
+            // btn_Reg
+            // 
+            btn_Reg.BackColor = Color.Transparent;
+            btn_Reg.FlatAppearance.BorderSize = 0;
+            btn_Reg.FlatStyle = FlatStyle.Flat;
+            btn_Reg.Font = new Font("Microsoft Sans Serif", 8F);
+            btn_Reg.ForeColor = Color.FromArgb(139, 105, 20);
+            btn_Reg.Location = new Point(120, 341);
+            btn_Reg.Name = "btn_Reg";
+            btn_Reg.Size = new Size(160, 25);
+            btn_Reg.TabIndex = 9;
+            btn_Reg.Text = "Регистрация";
+            btn_Reg.UseVisualStyleBackColor = false;
+            btn_Reg.Click += btnRegister_Click;
+            // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -205,6 +223,7 @@ namespace OnlineStoreApp
             Controls.Add(pnlForm);
             Font = new Font("Microsoft Sans Serif", 9F);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
@@ -256,5 +275,6 @@ namespace OnlineStoreApp
                 e.Graphics.DrawPath(pen, path);
             }
         }
+        private Button btn_Reg;
     }
 }

@@ -30,192 +30,181 @@ namespace OnlineStoreApp
 
         private void InitializeComponent()
         {
-            this.txtAddress = new System.Windows.Forms.TextBox();
-            this.txtPhone = new System.Windows.Forms.TextBox();
-            this.btnConfirmOrder = new System.Windows.Forms.Button();
-            this.lblAddress = new System.Windows.Forms.Label();
-            this.lblPhone = new System.Windows.Forms.Label();
-            this.lblTotal = new System.Windows.Forms.Label();
-            this.pnlHeader = new System.Windows.Forms.Panel();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.pnlContent = new System.Windows.Forms.Panel();
-            this.pnlTotal = new System.Windows.Forms.Panel();
-            this.lblTotalAmount = new System.Windows.Forms.Label();
-            this.pnlCheckoutCircle = new System.Windows.Forms.Panel();
-            this.pnlHeader.SuspendLayout();
-            this.pnlContent.SuspendLayout();
-            this.pnlTotal.SuspendLayout();
-            this.SuspendLayout();
-
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CheckoutForm));
+            txtAddress = new TextBox();
+            txtPhone = new TextBox();
+            btnConfirmOrder = new Button();
+            lblAddress = new Label();
+            lblPhone = new Label();
+            lblTotal = new Label();
+            pnlHeader = new Panel();
+            lblTitle = new Label();
+            pnlCheckoutCircle = new Panel();
+            pnlContent = new Panel();
+            pnlTotal = new Panel();
+            lblTotalAmount = new Label();
+            pnlHeader.SuspendLayout();
+            pnlContent.SuspendLayout();
+            pnlTotal.SuspendLayout();
+            SuspendLayout();
+            // 
+            // txtAddress
+            // 
+            txtAddress.BackColor = Color.FromArgb(245, 236, 215);
+            txtAddress.BorderStyle = BorderStyle.FixedSingle;
+            txtAddress.Font = new Font("Microsoft Sans Serif", 9F);
+            txtAddress.Location = new Point(30, 48);
+            txtAddress.Multiline = true;
+            txtAddress.Name = "txtAddress";
+            txtAddress.Size = new Size(450, 55);
+            txtAddress.TabIndex = 1;
+            // 
+            // txtPhone
+            // 
+            txtPhone.BackColor = Color.FromArgb(245, 236, 215);
+            txtPhone.BorderStyle = BorderStyle.FixedSingle;
+            txtPhone.Font = new Font("Microsoft Sans Serif", 9F);
+            txtPhone.Location = new Point(30, 140);
+            txtPhone.Name = "txtPhone";
+            txtPhone.Size = new Size(300, 21);
+            txtPhone.TabIndex = 3;
+            // 
+            // btnConfirmOrder
+            // 
+            btnConfirmOrder.BackColor = Color.FromArgb(45, 90, 39);
+            btnConfirmOrder.FlatAppearance.BorderSize = 0;
+            btnConfirmOrder.FlatStyle = FlatStyle.Flat;
+            btnConfirmOrder.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            btnConfirmOrder.ForeColor = Color.FromArgb(245, 236, 215);
+            btnConfirmOrder.Location = new Point(120, 275);
+            btnConfirmOrder.Name = "btnConfirmOrder";
+            btnConfirmOrder.Size = new Size(270, 50);
+            btnConfirmOrder.TabIndex = 5;
+            btnConfirmOrder.Text = "Подтвердить заказ";
+            btnConfirmOrder.UseVisualStyleBackColor = false;
+            btnConfirmOrder.Click += btnConfirmOrder_Click;
+            // 
+            // lblAddress
+            // 
+            lblAddress.AutoSize = true;
+            lblAddress.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            lblAddress.ForeColor = Color.FromArgb(107, 66, 38);
+            lblAddress.Location = new Point(30, 25);
+            lblAddress.Name = "lblAddress";
+            lblAddress.Size = new Size(131, 17);
+            lblAddress.TabIndex = 0;
+            lblAddress.Text = "Адрес доставки:";
+            // 
+            // lblPhone
+            // 
+            lblPhone.AutoSize = true;
+            lblPhone.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            lblPhone.ForeColor = Color.FromArgb(107, 66, 38);
+            lblPhone.Location = new Point(30, 118);
+            lblPhone.Name = "lblPhone";
+            lblPhone.Size = new Size(140, 17);
+            lblPhone.TabIndex = 2;
+            lblPhone.Text = "Номер телефона:";
+            // 
+            // lblTotal
+            // 
+            lblTotal.AutoSize = true;
+            lblTotal.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            lblTotal.ForeColor = Color.FromArgb(107, 66, 38);
+            lblTotal.Location = new Point(20, 18);
+            lblTotal.Name = "lblTotal";
+            lblTotal.Size = new Size(64, 20);
+            lblTotal.TabIndex = 0;
+            lblTotal.Text = "Итого:";
             // 
             // pnlHeader
             // 
-            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(107, 66, 38);
-            this.pnlHeader.Controls.Add(this.lblTitle);
-            this.pnlHeader.Controls.Add(this.pnlCheckoutCircle);
-            this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlHeader.Location = new System.Drawing.Point(0, 0);
-            this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(550, 60);
-            this.pnlHeader.TabIndex = 0;
-
+            pnlHeader.BackColor = Color.FromArgb(107, 66, 38);
+            pnlHeader.Controls.Add(lblTitle);
+            pnlHeader.Controls.Add(pnlCheckoutCircle);
+            pnlHeader.Dock = DockStyle.Top;
+            pnlHeader.Location = new Point(0, 0);
+            pnlHeader.Name = "pnlHeader";
+            pnlHeader.Size = new Size(550, 60);
+            pnlHeader.TabIndex = 0;
             // 
-            // lblTitle (шрифт Monotype Corsiva)
+            // lblTitle
             // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Monotype Corsiva", 18F, System.Drawing.FontStyle.Italic);
-            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(245, 236, 215);
-            this.lblTitle.Location = new System.Drawing.Point(20, 16);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(199, 29);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Оформление заказа";
-
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Monotype Corsiva", 18F, FontStyle.Italic);
+            lblTitle.ForeColor = Color.FromArgb(245, 236, 215);
+            lblTitle.Location = new Point(20, 16);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(188, 28);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Оформление заказа";
             // 
-            // pnlCheckoutCircle (декоративный элемент, уменьшен)
+            // pnlCheckoutCircle
             // 
-            this.pnlCheckoutCircle.BackColor = System.Drawing.Color.Transparent;
-            this.pnlCheckoutCircle.Location = new System.Drawing.Point(500, 12);
-            this.pnlCheckoutCircle.Name = "pnlCheckoutCircle";
-            this.pnlCheckoutCircle.Size = new System.Drawing.Size(30, 30);
-            this.pnlCheckoutCircle.TabIndex = 1;
-            this.pnlCheckoutCircle.Paint += new System.Windows.Forms.PaintEventHandler(this.DrawCheckoutCircle);
-
+            pnlCheckoutCircle.BackColor = Color.Transparent;
+            pnlCheckoutCircle.Location = new Point(500, 12);
+            pnlCheckoutCircle.Name = "pnlCheckoutCircle";
+            pnlCheckoutCircle.Size = new Size(30, 30);
+            pnlCheckoutCircle.TabIndex = 1;
+            pnlCheckoutCircle.Paint += DrawCheckoutCircle;
             // 
             // pnlContent
             // 
-            this.pnlContent.BackColor = System.Drawing.Color.FromArgb(255, 249, 240);
-            this.pnlContent.Controls.Add(this.lblAddress);
-            this.pnlContent.Controls.Add(this.txtAddress);
-            this.pnlContent.Controls.Add(this.lblPhone);
-            this.pnlContent.Controls.Add(this.txtPhone);
-            this.pnlContent.Controls.Add(this.pnlTotal);
-            this.pnlContent.Controls.Add(this.btnConfirmOrder);
-            this.pnlContent.Location = new System.Drawing.Point(20, 80);
-            this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(510, 370);
-            this.pnlContent.TabIndex = 1;
-
-            // 
-            // lblAddress (шрифт Unbounded)
-            // 
-            this.lblAddress.AutoSize = true;
-            this.lblAddress.Font = new System.Drawing.Font("Unbounded", 10F, System.Drawing.FontStyle.Bold);
-            this.lblAddress.ForeColor = System.Drawing.Color.FromArgb(107, 66, 38);
-            this.lblAddress.Location = new System.Drawing.Point(30, 25);
-            this.lblAddress.Name = "lblAddress";
-            this.lblAddress.Size = new System.Drawing.Size(120, 18);
-            this.lblAddress.TabIndex = 0;
-            this.lblAddress.Text = "Адрес доставки:";
-
-            // 
-            // txtAddress (шрифт Unbounded)
-            // 
-            this.txtAddress.BackColor = System.Drawing.Color.FromArgb(245, 236, 215);
-            this.txtAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtAddress.Font = new System.Drawing.Font("Unbounded", 9F);
-            this.txtAddress.Location = new System.Drawing.Point(30, 48);
-            this.txtAddress.Multiline = true;
-            this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(450, 55);
-            this.txtAddress.TabIndex = 1;
-
-            // 
-            // lblPhone (шрифт Unbounded)
-            // 
-            this.lblPhone.AutoSize = true;
-            this.lblPhone.Font = new System.Drawing.Font("Unbounded", 10F, System.Drawing.FontStyle.Bold);
-            this.lblPhone.ForeColor = System.Drawing.Color.FromArgb(107, 66, 38);
-            this.lblPhone.Location = new System.Drawing.Point(30, 118);
-            this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(129, 18);
-            this.lblPhone.TabIndex = 2;
-            this.lblPhone.Text = "Номер телефона:";
-
-            // 
-            // txtPhone (шрифт Unbounded)
-            // 
-            this.txtPhone.BackColor = System.Drawing.Color.FromArgb(245, 236, 215);
-            this.txtPhone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPhone.Font = new System.Drawing.Font("Unbounded", 9F);
-            this.txtPhone.Location = new System.Drawing.Point(30, 140);
-            this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(300, 26);
-            this.txtPhone.TabIndex = 3;
-
+            pnlContent.BackColor = Color.FromArgb(255, 249, 240);
+            pnlContent.Controls.Add(lblAddress);
+            pnlContent.Controls.Add(txtAddress);
+            pnlContent.Controls.Add(lblPhone);
+            pnlContent.Controls.Add(txtPhone);
+            pnlContent.Controls.Add(pnlTotal);
+            pnlContent.Controls.Add(btnConfirmOrder);
+            pnlContent.Location = new Point(20, 80);
+            pnlContent.Name = "pnlContent";
+            pnlContent.Size = new Size(510, 370);
+            pnlContent.TabIndex = 1;
             // 
             // pnlTotal
             // 
-            this.pnlTotal.BackColor = System.Drawing.Color.FromArgb(212, 196, 168);
-            this.pnlTotal.Controls.Add(this.lblTotal);
-            this.pnlTotal.Controls.Add(this.lblTotalAmount);
-            this.pnlTotal.Location = new System.Drawing.Point(30, 190);
-            this.pnlTotal.Name = "pnlTotal";
-            this.pnlTotal.Size = new System.Drawing.Size(450, 60);
-            this.pnlTotal.TabIndex = 4;
-
+            pnlTotal.BackColor = Color.FromArgb(212, 196, 168);
+            pnlTotal.Controls.Add(lblTotal);
+            pnlTotal.Controls.Add(lblTotalAmount);
+            pnlTotal.Location = new Point(30, 190);
+            pnlTotal.Name = "pnlTotal";
+            pnlTotal.Size = new Size(450, 60);
+            pnlTotal.TabIndex = 4;
             // 
-            // lblTotal (шрифт Unbounded)
+            // lblTotalAmount
             // 
-            this.lblTotal.AutoSize = true;
-            this.lblTotal.Font = new System.Drawing.Font("Unbounded", 12F, System.Drawing.FontStyle.Bold);
-            this.lblTotal.ForeColor = System.Drawing.Color.FromArgb(107, 66, 38);
-            this.lblTotal.Location = new System.Drawing.Point(20, 18);
-            this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(63, 22);
-            this.lblTotal.TabIndex = 0;
-            this.lblTotal.Text = "Итого:";
-
-            // 
-            // lblTotalAmount (ЗЕЛЕНЫЙ ЦВЕТ, шрифт Unbounded)
-            // 
-            this.lblTotalAmount.AutoSize = true;
-            this.lblTotalAmount.Font = new System.Drawing.Font("Unbounded", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTotalAmount.ForeColor = System.Drawing.Color.FromArgb(46, 125, 50);
-            this.lblTotalAmount.Location = new System.Drawing.Point(95, 16);
-            this.lblTotalAmount.Name = "lblTotalAmount";
-            this.lblTotalAmount.Size = new System.Drawing.Size(51, 26);
-            this.lblTotalAmount.TabIndex = 1;
-            this.lblTotalAmount.Text = "0 ₽";
-
-            // 
-            // btnConfirmOrder (шрифт Unbounded)
-            // 
-            this.btnConfirmOrder.BackColor = System.Drawing.Color.FromArgb(45, 90, 39);
-            this.btnConfirmOrder.FlatAppearance.BorderSize = 0;
-            this.btnConfirmOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConfirmOrder.Font = new System.Drawing.Font("Unbounded", 10F, System.Drawing.FontStyle.Bold);
-            this.btnConfirmOrder.ForeColor = System.Drawing.Color.FromArgb(245, 236, 215);
-            this.btnConfirmOrder.Location = new System.Drawing.Point(120, 275);
-            this.btnConfirmOrder.Name = "btnConfirmOrder";
-            this.btnConfirmOrder.Size = new System.Drawing.Size(270, 50);
-            this.btnConfirmOrder.TabIndex = 5;
-            this.btnConfirmOrder.Text = "Подтвердить заказ";
-            this.btnConfirmOrder.UseVisualStyleBackColor = false;
-            this.btnConfirmOrder.Click += new System.EventHandler(this.btnConfirmOrder_Click);
-
+            lblTotalAmount.AutoSize = true;
+            lblTotalAmount.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold);
+            lblTotalAmount.ForeColor = Color.FromArgb(46, 125, 50);
+            lblTotalAmount.Location = new Point(95, 16);
+            lblTotalAmount.Name = "lblTotalAmount";
+            lblTotalAmount.Size = new Size(39, 24);
+            lblTotalAmount.TabIndex = 1;
+            lblTotalAmount.Text = "0 ₽";
             // 
             // CheckoutForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(212, 196, 168);
-            this.ClientSize = new System.Drawing.Size(550, 480);
-            this.Controls.Add(this.pnlContent);
-            this.Controls.Add(this.pnlHeader);
-            this.Font = new System.Drawing.Font("Unbounded", 9F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.Name = "CheckoutForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Оформление - Винтажный Бутик";
-            this.pnlHeader.ResumeLayout(false);
-            this.pnlHeader.PerformLayout();
-            this.pnlContent.ResumeLayout(false);
-            this.pnlContent.PerformLayout();
-            this.pnlTotal.ResumeLayout(false);
-            this.pnlTotal.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(212, 196, 168);
+            ClientSize = new Size(550, 480);
+            Controls.Add(pnlContent);
+            Controls.Add(pnlHeader);
+            Font = new Font("Microsoft Sans Serif", 9F);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            Name = "CheckoutForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Оформление - Винтажный Бутик";
+            pnlHeader.ResumeLayout(false);
+            pnlHeader.PerformLayout();
+            pnlContent.ResumeLayout(false);
+            pnlContent.PerformLayout();
+            pnlTotal.ResumeLayout(false);
+            pnlTotal.PerformLayout();
+            ResumeLayout(false);
         }
 
         private void DrawCheckoutCircle(object sender, PaintEventArgs e)

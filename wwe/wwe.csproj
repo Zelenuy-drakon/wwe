@@ -1,12 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows7.0</TargetFramework>
 		<LangVersion>12.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>disable</ImplicitUsings>
+		<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+		<AssemblyName>Винтажный бутик</AssemblyName>
+		<ApplicationIcon>magnific__logo-design-for-an-online-clothing-store-named-vin__38111.ico</ApplicationIcon>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Content Include="magnific__logo-design-for-an-online-clothing-store-named-vin__38111.ico" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FontAwesome" Version="4.7.0" />
