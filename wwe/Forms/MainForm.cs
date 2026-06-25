@@ -1,7 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
+using OnlineStoreApp.Forms;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -156,6 +158,32 @@ namespace OnlineStoreApp
         private void lblTitle_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            var m = System.Diagnostics.Process.GetCurrentProcess();
+            Process.Start(Environment.ProcessPath);
+
+            m.Kill();
+
+        }
+
+        private void btnProfile_Click(object sender, EventArgs e)
+        {
+            cmsProfile.Show(btnProfile, new System.Drawing.Point(-80, btnProfile.Height));
+        }
+
+        private void личныйКабинетToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var pa = new PersonalAccount(userId);
+            pa.ShowDialog();
         }
     }
 }

@@ -20,7 +20,6 @@ namespace OnlineStoreApp
         private System.Windows.Forms.Label lblTitle;
         // Декоративные элементы (уменьшенные)
         private System.Windows.Forms.Panel pnlCornerCircle;
-        private System.Windows.Forms.Panel pnlTopCircle;
         private System.Windows.Forms.Panel pnlSideDiamond;
         private System.Windows.Forms.Panel pnlAccentLine;
 
@@ -35,6 +34,7 @@ namespace OnlineStoreApp
 
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
@@ -49,15 +49,20 @@ namespace OnlineStoreApp
             lblSearch = new Label();
             lblCategory = new Label();
             pnlHeader = new Panel();
+            btnProfile = new Button();
             lblTitle = new Label();
             pnlAccentLine = new Panel();
-            pnlTopCircle = new Panel();
             pnlSidebar = new Panel();
             pnlSideDiamond = new Panel();
             pnlCornerCircle = new Panel();
+            sqlDataAdapter1 = new Microsoft.Data.SqlClient.SqlDataAdapter();
+            cmsProfile = new ContextMenuStrip(components);
+            личныйКабинетToolStripMenuItem = new ToolStripMenuItem();
+            выходToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
             pnlHeader.SuspendLayout();
             pnlSidebar.SuspendLayout();
+            cmsProfile.SuspendLayout();
             SuspendLayout();
             // 
             // cmbCategories
@@ -215,14 +220,24 @@ namespace OnlineStoreApp
             // pnlHeader
             // 
             pnlHeader.BackColor = Color.FromArgb(107, 66, 38);
+            pnlHeader.Controls.Add(btnProfile);
             pnlHeader.Controls.Add(lblTitle);
             pnlHeader.Controls.Add(pnlAccentLine);
-            pnlHeader.Controls.Add(pnlTopCircle);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Name = "pnlHeader";
             pnlHeader.Size = new Size(1050, 70);
             pnlHeader.TabIndex = 0;
+            // 
+            // btnProfile
+            // 
+            btnProfile.BackgroundImage = Properties.Resources.images__1_;
+            btnProfile.Location = new Point(963, 3);
+            btnProfile.Name = "btnProfile";
+            btnProfile.Size = new Size(62, 58);
+            btnProfile.TabIndex = 2;
+            btnProfile.UseVisualStyleBackColor = true;
+            btnProfile.Click += btnProfile_Click;
             // 
             // lblTitle
             // 
@@ -242,15 +257,6 @@ namespace OnlineStoreApp
             pnlAccentLine.Name = "pnlAccentLine";
             pnlAccentLine.Size = new Size(1050, 2);
             pnlAccentLine.TabIndex = 1;
-            // 
-            // pnlTopCircle
-            // 
-            pnlTopCircle.BackColor = Color.Transparent;
-            pnlTopCircle.Location = new Point(980, 15);
-            pnlTopCircle.Name = "pnlTopCircle";
-            pnlTopCircle.Size = new Size(40, 40);
-            pnlTopCircle.TabIndex = 2;
-            pnlTopCircle.Paint += DrawHeaderCircle;
             // 
             // pnlSidebar
             // 
@@ -283,6 +289,27 @@ namespace OnlineStoreApp
             pnlCornerCircle.TabIndex = 7;
             pnlCornerCircle.Paint += DrawCornerCircle;
             // 
+            // cmsProfile
+            // 
+            cmsProfile.Items.AddRange(new ToolStripItem[] { личныйКабинетToolStripMenuItem, выходToolStripMenuItem });
+            cmsProfile.Name = "cmsProfile";
+            cmsProfile.RenderMode = ToolStripRenderMode.Professional;
+            cmsProfile.Size = new Size(167, 48);
+            // 
+            // личныйКабинетToolStripMenuItem
+            // 
+            личныйКабинетToolStripMenuItem.Name = "личныйКабинетToolStripMenuItem";
+            личныйКабинетToolStripMenuItem.Size = new Size(166, 22);
+            личныйКабинетToolStripMenuItem.Text = "Личный кабинет";
+            личныйКабинетToolStripMenuItem.Click += личныйКабинетToolStripMenuItem_Click;
+            // 
+            // выходToolStripMenuItem
+            // 
+            выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            выходToolStripMenuItem.Size = new Size(166, 22);
+            выходToolStripMenuItem.Text = "Выход";
+            выходToolStripMenuItem.Click += выходToolStripMenuItem_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -308,6 +335,7 @@ namespace OnlineStoreApp
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlSidebar.ResumeLayout(false);
+            cmsProfile.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -351,5 +379,11 @@ namespace OnlineStoreApp
                 e.Graphics.DrawEllipse(pen, 3, 3, 22, 22);
             }
         }
+
+        private Microsoft.Data.SqlClient.SqlDataAdapter sqlDataAdapter1;
+        private ContextMenuStrip cmsProfile;
+        private ToolStripMenuItem личныйКабинетToolStripMenuItem;
+        private ToolStripMenuItem выходToolStripMenuItem;
+        private Button btnProfile;
     }
 }

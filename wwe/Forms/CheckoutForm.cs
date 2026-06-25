@@ -56,7 +56,14 @@ namespace OnlineStoreApp
                 MessageBox.Show("Введите номер телефона", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
+            foreach (char ah in phone)
+            {
+                if (ah != '+' && ah != '1' && ah != '2' && ah != '3' && ah != '4' && ah != '5' && ah != '6' && ah != '7' && ah != '8' && ah != '9' && ah != '0')
+                {
+                    MessageBox.Show("Телефон не может содержать буквы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
             DialogResult result = MessageBox.Show("Подтвердить заказ?", "Оформление",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 

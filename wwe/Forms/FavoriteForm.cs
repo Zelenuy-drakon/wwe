@@ -73,7 +73,7 @@ namespace OnlineStoreApp
 
             if (result == DialogResult.Yes)
             {
-                db.ExecuteNonQuery("DELETE FROM Favorites WHERE FavoriteId = @id", new MySqlParameter("@id", favoriteId));
+                await db.ExecuteNonQueryAsync("DELETE FROM Favorites WHERE FavoriteId = @id", new MySqlParameter("@id", favoriteId));
                 await LoadFavoritesAsync();
             }
         }

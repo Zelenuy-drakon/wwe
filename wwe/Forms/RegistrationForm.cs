@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
+using System.Linq;
 namespace wwe.Forms
 {
     
@@ -39,8 +39,8 @@ namespace wwe.Forms
                     return false;
                 }
             }
-
-            private async void btnRegister_Click(object sender, EventArgs e)
+            
+        private async void btnRegister_Click(object sender, EventArgs e)
             {
                 string username = txtUsername.Text.Trim();
                 string email = txtEmail.Text.Trim();
@@ -86,9 +86,22 @@ namespace wwe.Forms
                     MessageBox.Show("Выберите вопрос безопасности и введите ответ", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+                if (IsOnlyCyrillic(securityAnswer) != true && securityAnswer.Length < 2)
+                {
+                    MessageBox.Show("Ответ должен быть на русском и содержать более двух букв", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                // Проверяем, что ответ на секретный вопрос не пустой, и все символы — русские буквы
+             bool IsOnlyCyrillic(string input)
+             {
+                if (string.IsNullOrWhiteSpace(input)) return false;
 
-                // Проверка существования пользователя по логину
-                string checkQuery = "SELECT COUNT(*) FROM Users WHERE Username = @user";
+            
+                return input.All(c => char.IsLetter(c) && (c >= 'А' && c <= 'я' || c == 'Ё' || c == 'ё'));
+             }
+
+            // Проверка существования пользователя по логину
+            string checkQuery = "SELECT COUNT(*) FROM Users WHERE Username = @user";
                 MySqlParameter[] checkParams = { new MySqlParameter("@user", username) };
                 DataTable dt = await db.ExecuteQueryAsync(checkQuery, checkParams);
                 int userExists = Convert.ToInt32(dt.Rows[0][0]);
