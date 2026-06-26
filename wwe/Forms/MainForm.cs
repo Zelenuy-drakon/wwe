@@ -182,6 +182,7 @@ namespace OnlineStoreApp
 
         private void личныйКабинетToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this.Hide();
             var pa = new PersonalAccount(userId);
             pa.ShowDialog();
         }

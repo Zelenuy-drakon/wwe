@@ -41,6 +41,8 @@ namespace OnlineStoreApp.Forms
         private void InitializeComponent()
         {
             pnlForm = new Panel();
+            txtUsername = new Label();
+            btnMain = new Button();
             btnForgot = new Button();
             lblTitle = new Label();
             pnlDivider = new Panel();
@@ -48,15 +50,13 @@ namespace OnlineStoreApp.Forms
             pnlCircle2 = new Panel();
             pnlDiamond1 = new Panel();
             pnlLeaf1 = new Panel();
-            btnMain = new Button();
-            label1 = new Label();
             pnlForm.SuspendLayout();
             SuspendLayout();
             // 
             // pnlForm
             // 
             pnlForm.BackColor = Color.FromArgb(255, 249, 240);
-            pnlForm.Controls.Add(label1);
+            pnlForm.Controls.Add(txtUsername);
             pnlForm.Controls.Add(btnMain);
             pnlForm.Controls.Add(btnForgot);
             pnlForm.Controls.Add(lblTitle);
@@ -65,6 +65,31 @@ namespace OnlineStoreApp.Forms
             pnlForm.Name = "pnlForm";
             pnlForm.Size = new Size(400, 480);
             pnlForm.TabIndex = 0;
+            // 
+            // txtUsername
+            // 
+            txtUsername.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Italic, GraphicsUnit.Point, 204);
+            txtUsername.ForeColor = Color.FromArgb(107, 66, 38);
+            txtUsername.Location = new Point(111, 126);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(174, 65);
+            txtUsername.TabIndex = 11;
+            txtUsername.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btnMain
+            // 
+            btnMain.BackColor = Color.Transparent;
+            btnMain.FlatAppearance.BorderSize = 0;
+            btnMain.FlatStyle = FlatStyle.Flat;
+            btnMain.Font = new Font("Microsoft Sans Serif", 8F);
+            btnMain.ForeColor = Color.FromArgb(190, 105, 20);
+            btnMain.Location = new Point(111, 437);
+            btnMain.Name = "btnMain";
+            btnMain.Size = new Size(160, 25);
+            btnMain.TabIndex = 9;
+            btnMain.Text = "На главную";
+            btnMain.UseVisualStyleBackColor = false;
+            btnMain.Click += btnMain_Click;
             // 
             // btnForgot
             // 
@@ -136,29 +161,6 @@ namespace OnlineStoreApp.Forms
             pnlLeaf1.TabIndex = 20;
             pnlLeaf1.Paint += DrawLeaf;
             // 
-            // btnMain
-            // 
-            btnMain.BackColor = Color.Transparent;
-            btnMain.FlatAppearance.BorderSize = 0;
-            btnMain.FlatStyle = FlatStyle.Flat;
-            btnMain.Font = new Font("Microsoft Sans Serif", 8F);
-            btnMain.ForeColor = Color.FromArgb(190, 105, 20);
-            btnMain.Location = new Point(111, 437);
-            btnMain.Name = "btnMain";
-            btnMain.Size = new Size(160, 25);
-            btnMain.TabIndex = 9;
-            btnMain.Text = "На главную";
-            btnMain.UseVisualStyleBackColor = false;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(89, 142);
-            label1.Name = "label1";
-            label1.Size = new Size(41, 15);
-            label1.TabIndex = 10;
-            label1.Text = "label1";
-            // 
             // PersonalAccount
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -176,7 +178,6 @@ namespace OnlineStoreApp.Forms
             Name = "PersonalAccount";
             StartPosition = FormStartPosition.CenterScreen;
             pnlForm.ResumeLayout(false);
-            pnlForm.PerformLayout();
             ResumeLayout(false);
         }
         private void DrawCircle(object sender, PaintEventArgs e)
@@ -225,6 +226,6 @@ namespace OnlineStoreApp.Forms
 
         private Button btnForgot;
         private Button btnMain;
-        private Label label1;
+        private Label txtUsername;
     }
 }
